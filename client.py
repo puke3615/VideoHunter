@@ -6,7 +6,7 @@ import love.data_handler as data_handler
 import cv2
 
 cap = cv2.VideoCapture('love1_1.mp4')
-cap.set(0, int(8.85e5))
+cap.set(0, int(45.85e5))
 
 # cap = cv2.VideoCapture(0)
 # cap.set(0, int(4.85e5))

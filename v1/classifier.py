@@ -71,12 +71,12 @@ if __name__ == '__main__':
     print('Parse names.')
     names, index2name, name2index = data_handler.parse_name()
     print('Read train data.')
-    x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=1000)
+    x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=8000)
 
     print('Init model.')
-    classifier = Classifier(lr=1e-2, epoch=10)
-    # print('Train model.')
-    # classifier.train(x_train, y_train)
+    classifier = Classifier(lr=1e-2, epoch=50)
+    print('Train model.')
+    classifier.train(x_train, y_train)
 
     prediction = classifier.predict(x_train[:10, :, :, :])
     corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y_train[:10, :], 1))
