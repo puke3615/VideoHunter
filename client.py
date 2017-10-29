@@ -3,14 +3,10 @@ import imutils
 import time
 import cv2
 
-<<<<<<< 5c35964b2731f5cf422e48f849344116e95e47bb
-cap = cv2.VideoCapture('love1_1.mp4')
-cap.set(0, int(7.85e5))
-=======
-# cap = cv2.VideoCapture('wolf.mp4')
+# cap = cv2.VideoCapture('love1_1.mp4')
+# cap.set(0, int(7.85e5))
 cap = cv2.VideoCapture(0)
 cap.set(0, int(4.85e5))
->>>>>>> add classifier
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
