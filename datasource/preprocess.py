@@ -76,7 +76,7 @@ def download_images(images_data, name2index, download_dir, process_num=5):
     pool.join()
 
 
-def show(image, show_box=True, width = None):
+def show(image, show_box=True, width=None):
     if not os.path.exists(image):
         raise FileNotFoundError('File "%s" not found.' % image)
     im = cv2.imread(image)
@@ -127,21 +127,21 @@ PATH_FACE = 'face'
 
 if __name__ == '__main__':
     # 读人名
-    names, index2name, name2index = parse_people_names(PATH_PEOPLE)
-    print(names)
+    # names, index2name, name2index = parse_people_names(PATH_PEOPLE)
+    # print(names)
 
     # 读取图片信息
-    headers, images = parse_images(PATH_URLS)
-    print(headers)
-    print(len(images))
-    print(images[0])
+    # headers, images = parse_images(PATH_URLS)
+    # print(headers)
+    # print(len(images))
+    # print(images[0])
 
     # 下载图片
-    download_images(images, name2index, PATH_DOWNLOAD, process_num=20)
+    # download_images(images, name2index, PATH_DOWNLOAD, process_num=20)
 
     # 显示图片
-    # path = 'images/000/0086_521_94_683_256.jpg'
-    # show(path, show_box=True, width=700)
+    path = 'images/001/0044_205_131_379_305.jpg'
+    show(path, show_box=True, width=None)
 
     # 裁剪脸部区域
     # clip_face(PATH_DOWNLOAD, PATH_FACE)
