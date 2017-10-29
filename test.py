@@ -1,5 +1,6 @@
 import numpy as np
-import keras
 
 
 
+import random
+print(random.random())

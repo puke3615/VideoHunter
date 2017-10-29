@@ -10,29 +10,44 @@ import os
 import cv2
 import numpy as np
 import imutils
+import random
 
 
-def read_video(video_path, save_path):
+def random_scale():
+    offset_scale = random.random() - 0.5
+    offset_scale += -0.5 if offset_scale < 0 else 0.5
+    return offset_scale
+
+
+def read_video(video_path, save_path, unkown=False):
     if not os.path.exists(video_path):
         raise FileNotFoundError('File "%s" not found.' % video_path)
     if not os.path.exists(save_path):
         os.makedirs(save_path)
     cap = cv2.VideoCapture(video_path)
+    cap.set(0, 2711617 * 0.2)
     face_cascade = cv2.CascadeClassifier('../haarcascade_frontalface_default.xml')
     while cap.isOpened():
         index = cap.get(0)
         ret, frame = cap.read()
         faces = face_cascade.detectMultiScale(frame, 1.3, 5)
         for i, (x, y, w, h) in enumerate(faces):
+            if unkown:
+                height = frame.shape[0]
+                width = frame.shape[1]
+                x += int(random_scale() * w)
+                y += int(random_scale() * h)
+                if x < 0 or y < 0 or x + w >= width or y + h >= height:
+                    continue
             face = frame[y: y + h, x: x + w, :]
             file_name = '%s_%s.jpg' % (index, i)
             cv2.imwrite(os.path.join(save_path, file_name), face)
             print('File %s saved.' % file_name)
     cap.release()
 
-PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 01_超清.mp4'
+
+PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 10_超清.mp4'
 PATH_SAVE = 'images'
 
 if __name__ == '__main__':
-    read_video(PATH_VIDEO, PATH_SAVE)
-
+    read_video(PATH_VIDEO, PATH_SAVE, unkown=True)
