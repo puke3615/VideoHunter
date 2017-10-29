@@ -1,3 +1,5 @@
 .idea
 *.pyc
 *.mp4
+/datasource/face/
+/datasource/images/

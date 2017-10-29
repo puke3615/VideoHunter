@@ -1,4 +1,4 @@
 import numpy as np
 
-import winsound
-winsound.Beep(600,100)
+
+print('%04d' % 4)
