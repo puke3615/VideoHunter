@@ -1,11 +1,17 @@
+# coding=utf-8
+import keras.preprocessing.image
 import numpy as np
 import love.data_handler as data_handler
 import os
 import tensorflow.examples.tutorials.mnist.input_data as input_data
+from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import SGD
+
+NAMES = ['unkown', '关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
+PATH_TRAIN = 'love/roles'
 
 
 def get_data():
@@ -52,9 +58,26 @@ class FaceClassifier:
         else:
             print('Model params not found.')
 
+    def train(self, train_dir, classes=None):
+        train_data_gen = ImageDataGenerator(
+            rescale=1. / 255,
+            shear_range=0.2,
+            zoom_range=0.2,
+            horizontal_flip=True)
 
-    def train(self, x, y):
-        self.model.fit(x, y, batch_size=32, epochs=self.epoch)
+        train_generator = train_data_gen.flow_from_directory(
+            train_dir,
+            classes=classes,
+            target_size=(128, 128),
+            batch_size=32,
+            class_mode='binary')
+
+        self.model.fit_generator(
+            train_generator,
+            steps_per_epoch=60,
+            epochs=self.epoch)
+
+        # self.model.fit(x, y, batch_size=32, epochs=self.epoch)
         weights_dir = os.path.dirname(self.weights_path)
         if not os.path.exists(weights_dir):
             os.makedirs(weights_dir)
@@ -62,7 +85,6 @@ class FaceClassifier:
 
     def evaluate(self, x, y):
         return self.model.evaluate(x, y, batch_size=32)
-
 
     def predict(self, x, standard=True):
         if standard:
@@ -74,12 +96,12 @@ if __name__ == '__main__':
     print('Parse names.')
     names, index2name, name2index = data_handler.parse_name()
     print('Read train data.')
-    x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=8000)
+    x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=1000)
 
     print('Init model.')
     classifier = FaceClassifier(lr=1e-2, epoch=50)
     # print('Train model.')
-    # classifier.train(x_train, y_train)
+    # classifier.train(PATH_TRAIN, NAMES)
 
     predict_num = 100
     prediction = classifier.predict(x_train[:predict_num, :, :, :], False)
