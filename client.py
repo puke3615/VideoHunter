@@ -1,3 +1,4 @@
+# coding=utf-8
 import numpy as np
 import imutils
 import time
@@ -5,7 +6,8 @@ from v1.classifier import Classifier
 import love.data_handler as data_handler
 import cv2
 
-cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
+# cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
+cap = cv2.VideoCapture(u'/Users/zijiao/Desktop/love1_3.mp4')
 cap.set(0, int(5.85e5))
 
 # cap = cv2.VideoCapture(0)
