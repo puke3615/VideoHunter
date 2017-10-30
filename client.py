@@ -5,8 +5,8 @@ from v1.classifier import Classifier
 import love.data_handler as data_handler
 import cv2
 
-cap = cv2.VideoCapture('love1_1.mp4')
-cap.set(0, int(45.85e5))
+cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
+cap.set(0, int(5.85e5))
 
 # cap = cv2.VideoCapture(0)
 # cap.set(0, int(4.85e5))

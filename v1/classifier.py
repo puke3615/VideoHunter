@@ -63,7 +63,10 @@ class Classifier:
     def evaluate(self, x, y):
         return self.model.evaluate(x, y, batch_size=32)
 
-    def predict(self, x):
+
+    def predict(self, x, standard=True):
+        if standard:
+            x = x / 255.
         return self.model.predict(x)
 
 
@@ -75,13 +78,14 @@ if __name__ == '__main__':
 
     print('Init model.')
     classifier = Classifier(lr=1e-2, epoch=50)
-    print('Train model.')
-    classifier.train(x_train, y_train)
+    # print('Train model.')
+    # classifier.train(x_train, y_train)
 
-    prediction = classifier.predict(x_train[:10, :, :, :])
-    corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y_train[:10, :], 1))
+    predict_num = 100
+    prediction = classifier.predict(x_train[:predict_num, :, :, :], False)
+    corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y_train[:predict_num, :], 1))
     accuracy = np.mean(corrrect.astype(np.float32))
     print('Accuracy is %s' % accuracy)
 
-    for name, prob in data_handler.parse_predict(prediction):
+    for name, prob in data_handler.parse_predict(prediction)[:10]:
         print(name, prob)
