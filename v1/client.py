@@ -2,7 +2,7 @@
 import numpy as np
 import imutils
 import time
-from v1.classifier import Classifier
+from v1.classifier import FaceClassifier
 import love.data_handler as data_handler
 import cv2
 
@@ -13,8 +13,8 @@ cap.set(0, int(5.85e5))
 # cap = cv2.VideoCapture(0)
 # cap.set(0, int(4.85e5))
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-classifier = Classifier('v1/weights/weights.h5')
+face_cascade = cv2.CascadeClassifier('config/haarcascade_frontalface_default.xml')
+classifier = FaceClassifier()
 
 target_W = 128
 target_H = 128

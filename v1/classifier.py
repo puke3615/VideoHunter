@@ -17,8 +17,8 @@ def get_data():
     return x_train, y_train, x_test, y_test
 
 
-class Classifier:
-    weights_path = 'weights/weights.h5'
+class FaceClassifier:
+    weights_path = 'v1/weights/weights.h5'
 
     def __init__(self, weight_path=None, lr=1e-2, epoch=10):
         if weight_path is not None:
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=8000)
 
     print('Init model.')
-    classifier = Classifier(lr=1e-2, epoch=50)
+    classifier = FaceClassifier(lr=1e-2, epoch=50)
     # print('Train model.')
     # classifier.train(x_train, y_train)
 

@@ -21,7 +21,7 @@ def parse_predict(prediction, names=NAMES):
 
 def get_train_data(data_dir, name2index, file_num=None, im_width=128, im_height=128):
     if not os.path.exists(data_dir):
-        raise FileNotFoundError('File "%s" not found.' % data_dir)
+        raise Exception('File "%s" not found.' % data_dir)
     depth = len(name2index)
     a = 0
     images, labels = [], []
