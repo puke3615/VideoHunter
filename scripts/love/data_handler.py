@@ -1,27 +1,13 @@
 # coding=utf-8
 from PIL import Image
 import numpy as np
+import utils
 import cv2
 import os
 
-NAMES = ['unknown', '关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
 
-
-def parse_name(names=NAMES):
-    index2name = {i: n for i, n in enumerate(names)}
-    name2index = {v: k for k, v in index2name.items()}
-    return names, index2name, name2index
-
-
-def parse_predict(prediction, names=NAMES):
-    result_index = np.argmax(prediction, 1).tolist()
-    result_prob = np.max(prediction, 1).tolist()
-    return [(names[index], prob) for index, prob in zip(result_index, result_prob)]
-
-
-def get_train_data(data_dir, name2index, file_num=None, im_width=128, im_height=128):
-    if not os.path.exists(data_dir):
-        raise Exception('File "%s" not found.' % data_dir)
+def get_data(data_dir, name2index, file_num=None, im_width=128, im_height=128):
+    utils.check_file(data_dir)
     depth = len(name2index)
     a = 0
     images, labels = [], []
@@ -53,8 +39,8 @@ def get_train_data(data_dir, name2index, file_num=None, im_width=128, im_height=
 PATH_ROLES = 'roles'
 
 if __name__ == '__main__':
-    names, index2name, name2index = parse_name()
+    names, index2name, name2index = utils.parse_name()
     print(names, index2name)
 
-    x_data, y_data = get_train_data(PATH_ROLES, name2index, file_num=1000)
+    x_data, y_data = get_data(PATH_ROLES, name2index, file_num=1000)
     print(len(x_data))

@@ -12,10 +12,10 @@ import cv2
 import numpy as np
 import imutils
 import random
-import data_handler
+import utils
 from v1.classifier import FaceClassifier
 
-NAMES = data_handler.NAMES
+NAMES = utils.NAMES
 
 def random_scale():
     offset_scale = random.random() - 0.5
@@ -53,9 +53,9 @@ def read_video(video_path, save_path, unknown=False, classify=False, classify_di
             if classify:
                 if classifier is None:
                     classifier = FaceClassifier()
-                face = imutils.resize(face, 128, 128)
-                if face.shape[0] == 128 and face.shape[1] == 128:
-                    prediction = classifier.predict(np.array([face]))
+                face_data = imutils.resize(face, 128, 128)
+                if face_data.shape[0] == 128 and face_data.shape[1] == 128:
+                    prediction = classifier.predict(np.array([face_data]))
                     index = np.argmax(prediction[0])
                     subdir = NAMES[index]
                     if classify_path:

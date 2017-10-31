@@ -1,15 +1,16 @@
 # coding=utf-8
 import os
 
+import scripts.love.data_handler
+import utils
 import numpy as np
 import tensorflow.examples.tutorials.mnist.input_data as input_data
+from scripts.love import data_handler
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Flatten
 from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
-
-from scripts import love as data_handler
 
 PATH_TRAIN = 'love/roles'
 
@@ -93,21 +94,19 @@ class FaceClassifier:
 
 
 if __name__ == '__main__':
-    print('Parse names.')
-    names, index2name, name2index = data_handler.parse_name()
-    print('Read train data.')
-    x_train, y_train = data_handler.get_train_data('../love/roles', name2index, file_num=1000)
-
     print('Init model.')
     classifier = FaceClassifier(lr=1e-2, epoch=50)
     # print('Train model.')
-    # classifier.train(PATH_TRAIN, data_handler.NAMES)
+    # classifier.train(PATH_TRAIN, utils.NAMES)
 
+    names, index2name, name2index = utils.parse_name()
+    data_dir = utils.root_path('data/love/roles')
+    x, y = data_handler.get_data(data_dir, name2index, file_num=1000)
     predict_num = 100
-    prediction = classifier.predict(x_train[:predict_num, :, :, :], False)
-    corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y_train[:predict_num, :], 1))
+    prediction = classifier.predict(x[:predict_num, :, :, :], False)
+    corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y[:predict_num, :], 1))
     accuracy = np.mean(corrrect.astype(np.float32))
     print('Accuracy is %s' % accuracy)
 
-    for name, prob in data_handler.parse_predict(prediction)[:10]:
+    for name, prob in utils.parse_predict(prediction)[:10]:
         print(name, prob)

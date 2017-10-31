@@ -1,9 +1,9 @@
 # coding=utf-8
 import cv2
+import utils
 import imutils
 import numpy as np
 
-from scripts import love as data_handler
 from v1.classifier import FaceClassifier
 
 # cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
@@ -18,7 +18,7 @@ classifier = FaceClassifier()
 
 target_W = 128
 target_H = 128
-NAMES = ['Unknown', 'Guan', 'Lv', 'Zeng', 'Lin', 'Hu', 'Lu', 'Chen']
+NAMES = ['Guan', 'Lv', 'Zeng', 'Lin', 'Hu', 'Lu', 'Chen']
 
 while (cap.isOpened()):
     ret, frame = cap.read()
@@ -39,7 +39,7 @@ while (cap.isOpened()):
             if len(xs) == 0:
                 continue
             prediction = classifier.predict(np.array(xs))
-            result = data_handler.parse_predict(prediction, NAMES)
+            result = utils.parse_predict(prediction, NAMES)
             result = ['%s: %.2f' % (n, p) for n, p in result]
             for location, text in zip(ls, result):
                 cv2.putText(frame, text, location,
