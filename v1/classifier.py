@@ -10,7 +10,6 @@ from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import SGD
 
-NAMES = ['unkown', '关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
 PATH_TRAIN = 'love/roles'
 
 
@@ -101,7 +100,7 @@ if __name__ == '__main__':
     print('Init model.')
     classifier = FaceClassifier(lr=1e-2, epoch=50)
     # print('Train model.')
-    # classifier.train(PATH_TRAIN, NAMES)
+    # classifier.train(PATH_TRAIN, data_handler.NAMES)
 
     predict_num = 100
     prediction = classifier.predict(x_train[:predict_num, :, :, :], False)

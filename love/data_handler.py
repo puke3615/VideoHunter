@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 import os
 
-NAMES = ['unkown', '关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
+NAMES = ['unknown', '关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
 
 
 def parse_name(names=NAMES):
