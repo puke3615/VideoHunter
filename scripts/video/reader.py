@@ -68,8 +68,11 @@ def save_image(im):
     return im
 
 
+# 读取视频路径
 PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
+# 普通模式保存路径
 PATH_SAVE = utils.root_path('data/love/images')
+# 分类模式保存路径
 CLASSIFY_PATH = utils.root_path('data/love/predict')
 # 识别阈值(0.0 ~ 1.0)
 FACE_MIN = 0.8
@@ -77,7 +80,13 @@ FACE_MIN = 0.8
 SAVE_IMAGE = True
 # 是否自动分类
 CLASSIFY = True
+# 每隔多少帧进行采样
+STRIDES = 30
+# 是否显示画面
+SHOW_CONTENT = False
+# 是否显示视频百分比
+LOG = True
 
 if __name__ == '__main__':
     classifier = FaceClassifier() if CLASSIFY else None
-    read_video(PATH_VIDEO, strides=30, show=False, intercept=save_image if SAVE_IMAGE else None)
+    read_video(PATH_VIDEO, strides=STRIDES, show=SHOW_CONTENT, log=LOG, intercept=save_image if SAVE_IMAGE else None)
