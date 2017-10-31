@@ -6,26 +6,24 @@ import numpy as np
 
 from v1.classifier import FaceClassifier
 
-# cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
-cap = cv2.VideoCapture(u'/Users/zijiao/Desktop/love1_3.mp4')
+cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
+# cap = cv2.VideoCapture(u'/Users/zijiao/Desktop/love1_3.mp4')
 cap.set(0, int(5.85e5))
 
 # cap = cv2.VideoCapture(0)
 # cap.set(0, int(4.85e5))
 
-face_cascade = cv2.CascadeClassifier('config/haarcascade_frontalface_default.xml')
 classifier = FaceClassifier()
 
-target_W = 128
-target_H = 128
-NAMES = ['Guan', 'Lv', 'Zeng', 'Lin', 'Hu', 'Lu', 'Chen']
+target_W = utils.IM_WIDTH
+target_H = utils.IM_HEIGHT
 
 while (cap.isOpened()):
     ret, frame = cap.read()
 
     h_steps, v_steps = 1, 1
     if isinstance(frame, np.ndarray):
-        faces = face_cascade.detectMultiScale(frame, 1.3, 5)
+        faces = utils.detect_faces(frame)
 
         if len(faces):
             xs, ls = [], []
@@ -39,7 +37,7 @@ while (cap.isOpened()):
             if len(xs) == 0:
                 continue
             prediction = classifier.predict(np.array(xs))
-            result = utils.parse_predict(prediction, NAMES)
+            result = utils.parse_predict(prediction, utils.NAMES_EN)
             result = ['%s: %.2f' % (n, p) for n, p in result]
             for location, text in zip(ls, result):
                 cv2.putText(frame, text, location,

@@ -5,6 +5,7 @@ import scripts.love.data_handler
 import utils
 import numpy as np
 import tensorflow.examples.tutorials.mnist.input_data as input_data
+from keras.callbacks import ModelCheckpoint
 from scripts.love import data_handler
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Flatten
@@ -12,20 +13,9 @@ from keras.models import Sequential
 from keras.optimizers import SGD
 from keras.preprocessing.image import ImageDataGenerator
 
-PATH_TRAIN = 'love/roles'
-
-
-def get_data():
-    mnist = input_data.read_data_sets('/tmp/data/mnist', one_hot=True)
-    x_train = mnist[0].images.reshape([-1, 28, 28, 1])
-    y_train = mnist[0].labels
-    x_test = mnist[2].images.reshape([-1, 28, 28, 1])
-    y_test = mnist[2].labels
-    return x_train, y_train, x_test, y_test
-
 
 class FaceClassifier:
-    weights_path = 'v1/weights/weights.h5'
+    weights_path = utils.root_path('v1/weights/weights.h5')
 
     def __init__(self, weight_path=None, lr=1e-2, epoch=10):
         if weight_path is not None:
@@ -36,7 +26,7 @@ class FaceClassifier:
 
     def build_model(self):
         model = Sequential()
-        model.add(Conv2D(8, (3, 3), activation='relu', input_shape=(128, 128, 3)))
+        model.add(Conv2D(8, (3, 3), activation='relu', input_shape=(utils.IM_HEIGHT, utils.IM_WIDTH, 3)))
         # model.add(Conv2D(32, (3, 3), activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2)))
         model.add(Dropout(0.25))
@@ -47,7 +37,7 @@ class FaceClassifier:
         model.add(Flatten())
         model.add(Dense(256, activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(8, activation='softmax'))
+        model.add(Dense(7, activation='softmax'))
         return model
 
     def compile_model(self, lr):
@@ -69,20 +59,19 @@ class FaceClassifier:
         train_generator = train_data_gen.flow_from_directory(
             train_dir,
             classes=classes,
-            target_size=(128, 128),
+            target_size=(utils.IM_WIDTH, utils.IM_HEIGHT),
             batch_size=32,
-            class_mode='binary')
+            class_mode='categorical')
 
+        utils.ensure_dir(os.path.dirname(self.weights_path))
         self.model.fit_generator(
             train_generator,
-            steps_per_epoch=60,
-            epochs=self.epoch)
+            steps_per_epoch=100,
+            callbacks=[ModelCheckpoint(self.weights_path)],
+            epochs=self.epoch
+        )
 
         # self.model.fit(x, y, batch_size=32, epochs=self.epoch)
-        weights_dir = os.path.dirname(self.weights_path)
-        if not os.path.exists(weights_dir):
-            os.makedirs(weights_dir)
-        self.model.save_weights(self.weights_path)
 
     def evaluate(self, x, y):
         return self.model.evaluate(x, y, batch_size=32)
@@ -93,20 +82,27 @@ class FaceClassifier:
         return self.model.predict(x)
 
 
+PATH_TRAIN = utils.root_path('data/love/roles')
+PATH_VAL = utils.root_path('data/love/roles')
+# 是否训练
+TRAIN = True
+# 是否验证
+VALIDATE = True
+
 if __name__ == '__main__':
     print('Init model.')
-    classifier = FaceClassifier(lr=1e-2, epoch=50)
-    # print('Train model.')
-    # classifier.train(PATH_TRAIN, utils.NAMES)
+    classifier = FaceClassifier(lr=1e-2, epoch=5)
+    if TRAIN:
+        print('Train model.')
+        classifier.train(PATH_TRAIN, utils.NAMES)
 
-    names, index2name, name2index = utils.parse_name()
-    data_dir = utils.root_path('data/love/roles')
-    x, y = data_handler.get_data(data_dir, name2index, file_num=1000)
-    predict_num = 100
-    prediction = classifier.predict(x[:predict_num, :, :, :], False)
-    corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y[:predict_num, :], 1))
-    accuracy = np.mean(corrrect.astype(np.float32))
-    print('Accuracy is %s' % accuracy)
+    if VALIDATE:
+        names, index2name, name2index = utils.parse_name()
+        x, y = data_handler.get_data(PATH_VAL, name2index, file_num=1000)
+        prediction = classifier.predict(x, False)
+        corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y[:, :], 1))
+        accuracy = np.mean(corrrect.astype(np.float32))
+        print('Accuracy is %s' % accuracy)
 
-    for name, prob in utils.parse_predict(prediction)[:10]:
-        print(name, prob)
+        for name, prob in utils.parse_predict(prediction)[:10]:
+            print(name, prob)

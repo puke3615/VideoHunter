@@ -2,8 +2,12 @@ import numpy as np
 import cv2
 import os
 
-NAMES = ['关谷神奇', '吕子乔', '曾小贤', '林宛瑜', '胡一菲', '陆展博', '陈美嘉']
+NAMES = [u'关谷神奇', u'吕子乔', u'曾小贤', u'林宛瑜', u'胡一菲', u'陆展博', u'陈美嘉']
+NAMES_EN = ['Guan', 'Lv', 'Zeng', 'Lin', 'Hu', 'Lu', 'Chen']
 FACE_PATH = 'config/haarcascade_frontalface_default.xml'
+PROJECT_NAME = 'VideoHunter'
+IM_WIDTH = 128
+IM_HEIGHT = 128
 
 
 def parse_name(names=NAMES):
@@ -30,7 +34,7 @@ def ensure_dir(dir):
 
 def root_path(path):
     root = os.path.abspath('.')
-    while not root.endswith('VideoHunter'):
+    while not root.endswith(PROJECT_NAME):
         root = os.path.dirname(root)
     for layer in path.split('/'):
         root = os.path.join(root, layer)

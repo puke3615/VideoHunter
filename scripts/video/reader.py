@@ -53,16 +53,17 @@ def save_image(im):
         face = im[y: y + h, x: x + w, :]
         file_name = '%s.jpg' % time.time()
         if CLASSIFY:
-            if classifier is None:
-                classifier = FaceClassifier()
             face_data = imutils.resize(face, 128, 128)
             if face_data.shape[0] == 128 and face_data.shape[1] == 128:
                 prediction = classifier.predict(np.array([face_data]))
+                if np.max(prediction[0]) < FACE_MIN:
+                    continue
                 index = np.argmax(prediction[0])
-                subdir = NAMES[index]
+                subdir = utils.NAMES_EN[index]
                 save_path = os.path.join(CLASSIFY_PATH, subdir)
         utils.ensure_dir(save_path)
-        cv2.imwrite(os.path.join(save_path, file_name), face)
+        final_path = os.path.join(save_path, file_name)
+        cv2.imwrite(final_path, face)
         # print('File %s saved.' % file_name)
     return im
 
@@ -70,7 +71,13 @@ def save_image(im):
 PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
 PATH_SAVE = utils.root_path('data/love/images')
 CLASSIFY_PATH = utils.root_path('data/love/predict')
-CLASSIFY = False
+# 识别阈值(0.0 ~ 1.0)
+FACE_MIN = 0.8
+# 是否保存图片
+SAVE_IMAGE = True
+# 是否自动分类
+CLASSIFY = True
 
 if __name__ == '__main__':
-    read_video(PATH_VIDEO, strides=30, show=False, intercept=save_image)
+    classifier = FaceClassifier() if CLASSIFY else None
+    read_video(PATH_VIDEO, strides=30, show=False, intercept=save_image if SAVE_IMAGE else None)
