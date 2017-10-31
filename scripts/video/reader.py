@@ -10,17 +10,19 @@ import random
 from v1.classifier import FaceClassifier
 
 
-def read_video(video_path, show=False, log=True, intercept=None, strides=1, title='Face Detection'):
+def read_video(video_path, show=False, log=True, intercept=None, strides=1, title='Face Detection', seek=None):
     if strides <= 0:
         strides = 1
     utils.check_file(video_path)
     cap = cv2.VideoCapture(video_path)
+    if seek is not None:
+        cap.set(0, seek)
     frame_index = 0
     while cap.isOpened():
         ret, frame = cap.read()
         if frame_index % strides == 0:
             if log:
-                print('Progress %.3f%%, Frame %s' % (cap.get(2) * 100, frame_index))
+                print('Progress %3.3f%%, Frame %s, %s' % (cap.get(2) * 100, frame_index, cap.get(0)))
             if intercept is not None:
                 if isinstance(intercept, list):
                     for it in intercept:
@@ -69,13 +71,15 @@ def save_image(im):
 
 
 # 读取视频路径
-PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
+PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 09_超清.mp4'
 # 普通模式保存路径
 PATH_SAVE = utils.root_path('data/love/images')
 # 分类模式保存路径
 CLASSIFY_PATH = utils.root_path('data/love/predict')
+# seek位置
+SEEK = 0
 # 识别阈值(0.0 ~ 1.0)
-FACE_MIN = 0.8
+FACE_MIN = 0.3
 # 是否保存图片
 SAVE_IMAGE = True
 # 是否自动分类
@@ -89,4 +93,4 @@ LOG = True
 
 if __name__ == '__main__':
     classifier = FaceClassifier() if CLASSIFY else None
-    read_video(PATH_VIDEO, strides=STRIDES, show=SHOW_CONTENT, log=LOG, intercept=save_image if SAVE_IMAGE else None)
+    read_video(PATH_VIDEO, strides=STRIDES, show=SHOW_CONTENT, log=LOG, intercept=save_image if SAVE_IMAGE else None, seek=SEEK)

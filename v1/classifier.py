@@ -49,7 +49,10 @@ class FaceClassifier:
         else:
             print('Model params not found.')
 
-    def train(self, train_dir, classes=None):
+    def train(self, train_dir, classes=None, batch_size=32):
+        file_num = utils.calculate_file_num(train_dir)
+        steps_per_epoch = file_num // batch_size
+        print('steps number is %d every epoch.' % steps_per_epoch)
         train_data_gen = ImageDataGenerator(
             rescale=1. / 255,
             shear_range=0.2,
@@ -60,17 +63,16 @@ class FaceClassifier:
             train_dir,
             classes=classes,
             target_size=(utils.IM_WIDTH, utils.IM_HEIGHT),
-            batch_size=32,
+            batch_size=batch_size,
             class_mode='categorical')
 
         utils.ensure_dir(os.path.dirname(self.weights_path))
         self.model.fit_generator(
             train_generator,
-            steps_per_epoch=100,
+            steps_per_epoch=steps_per_epoch,
             callbacks=[ModelCheckpoint(self.weights_path)],
             epochs=self.epoch
         )
-
         # self.model.fit(x, y, batch_size=32, epochs=self.epoch)
 
     def evaluate(self, x, y):
@@ -91,10 +93,10 @@ VALIDATE = True
 
 if __name__ == '__main__':
     print('Init model.')
-    classifier = FaceClassifier(lr=1e-2, epoch=5)
+    classifier = FaceClassifier(lr=1e-2, epoch=10)
     if TRAIN:
         print('Train model.')
-        classifier.train(PATH_TRAIN, utils.NAMES)
+        classifier.train(PATH_TRAIN, classes=utils.NAMES)
 
     if VALIDATE:
         names, index2name, name2index = utils.parse_name()
