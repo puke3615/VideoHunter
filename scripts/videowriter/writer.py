@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
             # cv2.waitKey(1000 / int(fps))  # 延迟
             videoWriter.write(frame)  # 写视频帧
-            print 'Progress %3.3f%%, Frame %s' % (cap.get(2) * 100, c)
+            print('Progress %3.3f%%, Frame %s' % (cap.get(2) * 100, c))
             c += 1
         except Exception as e:
             print(e)

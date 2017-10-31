@@ -1,10 +1,10 @@
 # coding=utf-8
-import numpy as np
-import imutils
-import time
-from v1.classifier import FaceClassifier
-import love.data_handler as data_handler
 import cv2
+import imutils
+import numpy as np
+
+from scripts import love as data_handler
+from v1.classifier import FaceClassifier
 
 # cap = cv2.VideoCapture(u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4')
 cap = cv2.VideoCapture(u'/Users/zijiao/Desktop/love1_3.mp4')

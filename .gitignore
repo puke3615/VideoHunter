@@ -1,7 +1,8 @@
 .idea
 *.pyc
 *.mp4
-/datasource/face/
-/datasource/images/
-/love/images/
-/love/roles/
+/scripts/pubfig/face/
+/scripts/pubfig/images/
+/scripts/love/images/
+/scripts/love/roles/
+/data/

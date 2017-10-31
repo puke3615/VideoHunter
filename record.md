@@ -5,13 +5,13 @@
 
     * 参考[Face Detection using Haar Cascades](http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_objdetect/py_face_detection/py_face_detection.html#face-detection)，完成初版人脸检测功能
 
-        ![](doc/images/v1.jpg)
+        ![](doc/images/love.jpg)
 
     * 准确性对比，发现对正面照还好，侧面照不行
 
-        ![](doc/images/cv1.png)
+        ![](doc/images/prediction1.png)
 
-        ![](doc/images/cv2.png)
+        ![](doc/images/prediction2.png)
 
 * 模型选择
     * 了解[R-CNN、SPP-NET、Fast-R-CNN、Faster-R-CNN、YOLO、SSD总结](http://blog.csdn.net/eli00001/article/details/52292095)
