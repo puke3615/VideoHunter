@@ -17,7 +17,7 @@ from keras.preprocessing.image import ImageDataGenerator
 class FaceClassifier:
     weights_path = utils.root_path('v1/weights/weights.h5')
 
-    def __init__(self, weight_path=None, lr=1e-2, epoch=10):
+    def __init__(self, weight_path=None, lr=1e-2, epoch=30):
         if weight_path is not None:
             self.weights_path = weight_path
         self.epoch = epoch
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 
     if VALIDATE:
         names, index2name, name2index = utils.parse_name()
-        x, y = data_handler.get_data(PATH_VAL, name2index, file_num=1000)
+        x, y = data_handler.get_data(PATH_VAL, name2index, file_num=5000)
         prediction = classifier.predict(x, False)
         corrrect = np.equal(np.argmax(prediction, 1), np.argmax(y[:, :], 1))
         accuracy = np.mean(corrrect.astype(np.float32))

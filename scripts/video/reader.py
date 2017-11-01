@@ -58,7 +58,7 @@ def save_image(im):
             face_data = imutils.resize(face, 128, 128)
             if face_data.shape[0] == 128 and face_data.shape[1] == 128:
                 prediction = classifier.predict(np.array([face_data]))
-                if np.max(prediction[0]) < FACE_MIN:
+                if np.max(prediction[0]) < FACE_MIN or np.max(prediction[0]) > FACE_MAX:
                     continue
                 index = np.argmax(prediction[0])
                 subdir = utils.NAMES_EN[index]
@@ -71,7 +71,7 @@ def save_image(im):
 
 
 # 读取视频路径
-PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 09_超清.mp4'
+PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 10_超清.mp4'
 # 普通模式保存路径
 PATH_SAVE = utils.root_path('data/love/images')
 # 分类模式保存路径
@@ -79,7 +79,8 @@ CLASSIFY_PATH = utils.root_path('data/love/predict')
 # seek位置
 SEEK = 0
 # 识别阈值(0.0 ~ 1.0)
-FACE_MIN = 0.3
+FACE_MIN = 0.0
+FACE_MAX = 0.5
 # 是否保存图片
 SAVE_IMAGE = True
 # 是否自动分类

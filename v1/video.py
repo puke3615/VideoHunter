@@ -6,16 +6,16 @@ import numpy as np
 
 from v1.classifier import FaceClassifier
 
-# VIDEO_PATH = u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4'
-VIDEO_PATH = u'/Users/zijiao/Desktop/love1_3.mp4'
+VIDEO_PATH = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
+# VIDEO_PATH = u'/Users/zijiao/Desktop/love1_3.mp4'
 PROB_THRESHOLD = 0.5
 CLASSIFY = True
-SEEK = 5.85e5
+SEEK = 2.5985e6
 
 if __name__ == '__main__':
-    cap = cv2.VideoCapture(0)
-    # cap = cv2.VideoCapture(VIDEO_PATH)
-    cap.set(0, int(15.85e5))
+    # cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(VIDEO_PATH)
+    cap.set(0, SEEK)
 
     classifier = None
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
                 face = imutils.resize(face, target_W, target_H)
                 if face.shape[0] == target_H and face.shape[1] == target_W:
                     xs.append(face)
-                    ls.append((x, y + 5 if y < 20 else y - 5))
+                    ls.append((x + 3, y + 15 if y < 20 else y - 5))
             if xs:
                 if CLASSIFY:
                     classifier = classifier or FaceClassifier()
