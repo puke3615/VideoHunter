@@ -1,3 +1,4 @@
+# coding=utf-8
 import numpy as np
 import cv2
 import os
@@ -16,10 +17,23 @@ def parse_name(names=NAMES):
     return names, index2name, name2index
 
 
-def parse_predict(prediction, names=NAMES):
-    result_index = np.argmax(prediction, 1).tolist()
-    result_prob = np.max(prediction, 1).tolist()
-    return [(names[index], prob) for index, prob in zip(result_index, result_prob)]
+def parse_predict(prediction, names=NAMES, unique=False):
+    if unique:
+        prediction = np.copy(prediction)
+        r = np.zeros((len(prediction), 2))
+        while np.max(prediction) > 0:
+            argmax = np.argmax(prediction)
+            v_max = np.max(prediction)
+            c_max = argmax % len(names)
+            r_max = argmax / len(names)
+            r[r_max, :] = [c_max, v_max]
+            prediction[:, c_max] = 0
+            prediction[r_max, :] = 0
+        return [(names[int(class_index)], prob) for class_index, prob in r]
+    else:
+        result_index = np.argmax(prediction, 1).tolist()
+        result_prob = np.max(prediction, 1).tolist()
+        return [(names[index], prob) for index, prob in zip(result_index, result_prob)]
 
 
 def check_file(file_path):
