@@ -71,4 +71,4 @@ face_cascade = cv2.CascadeClassifier(root_path(FACE_PATH))
 
 
 def detect_faces(im):
-    return face_cascade.detectMultiScale(im, 1.1, 3)
+    return face_cascade.detectMultiScale(im, 1.2, 3)
