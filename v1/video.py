@@ -9,14 +9,15 @@ from v1.classifier import FaceClassifier
 # VIDEO_PATH = u'E:/Youku Files/transcode/爱情公寓 第一季 08_超清.mp4'
 VIDEO_PATH = u'/Users/zijiao/Desktop/love1_3.mp4'
 PROB_THRESHOLD = 0.5
+CLASSIFY = True
 SEEK = 5.85e5
 
 if __name__ == '__main__':
-    # cap = cv2.VideoCapture(0)
-    cap = cv2.VideoCapture(VIDEO_PATH)
+    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(VIDEO_PATH)
     cap.set(0, int(15.85e5))
 
-    classifier = FaceClassifier()
+    classifier = None
 
     target_W = utils.IM_WIDTH
     target_H = utils.IM_HEIGHT
@@ -35,14 +36,20 @@ if __name__ == '__main__':
                     xs.append(face)
                     ls.append((x, y + 5 if y < 20 else y - 5))
             if xs:
-                prediction = classifier.predict(np.array(xs))
-                result = utils.parse_predict(prediction, utils.NAMES_EN)
-                result = filter(lambda r: r[1] > PROB_THRESHOLD, result)
-                result = ['%s: %.2f' % (n, p) for n, p in result]
-                for location, text, (x, y, w, h) in zip(ls, result, faces):
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
-                    cv2.putText(frame, text, location,
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                if CLASSIFY:
+                    classifier = classifier or FaceClassifier()
+                    prediction = classifier.predict(np.array(xs))
+                    result = utils.parse_predict(prediction, utils.NAMES_EN)
+                    result = filter(lambda r: r[1] > PROB_THRESHOLD, result)
+                    result = ['%s: %.2f' % (n, p) for n, p in result]
+                    for location, text, (x, y, w, h) in zip(ls, result, faces):
+                        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                        cv2.putText(frame, text, location,
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+                else:
+                    for location, (x, y, w, h) in zip(ls, faces):
+                        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
         try:
             cv2.imshow('Face Detection', frame)
             # time.sleep(0.025)
