@@ -5,7 +5,7 @@ import os
 
 NAMES = [u'关谷神奇', u'吕子乔', u'曾小贤', u'林宛瑜', u'胡一菲', u'陆展博', u'陈美嘉']
 NAMES_EN = ['Guan', 'Lv', 'Zeng', 'Lin', 'Hu', 'Lu', 'Chen']
-FACE_PATH = 'config/haarcascade_frontalface_default.xml'
+FACE_PATH = 'config/haarcascade_frontalface_alt.xml'
 PROJECT_NAME = 'VideoHunter'
 IM_WIDTH = 128
 IM_HEIGHT = 128
