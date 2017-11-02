@@ -7,7 +7,7 @@ import numpy as np
 from PIL import Image
 from v1.classifier import FaceClassifier
 
-IMAGE_PATH = utils.root_path('doc/images/test5.jpg')
+IMAGE_PATH = utils.root_path('doc/images/test6.jpg')
 PREDICTION_POSTFIX = '_prediction'
 SAVE_PREDICTION = True
 PROB_THRESHOLD = 0.5

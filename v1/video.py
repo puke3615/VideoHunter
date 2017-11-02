@@ -6,11 +6,14 @@ import numpy as np
 
 from v1.classifier import FaceClassifier
 
-VIDEO_PATH = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
-# VIDEO_PATH = u'/Users/zijiao/Desktop/love1_3.mp4'
+# VIDEO_PATH = u'E:/Youku Files/transcode/爱情公寓 第一季 06_超清.mp4'
+# SEEK = 2.5985e6
+
+VIDEO_PATH = u'/Users/zijiao/Desktop/love1_3.mp4'
+SEEK = 2.6005e6
+
 PROB_THRESHOLD = 0.5
 CLASSIFY = True
-SEEK = 2.5985e6
 
 if __name__ == '__main__':
     # cap = cv2.VideoCapture(0)
