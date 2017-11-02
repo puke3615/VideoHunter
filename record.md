@@ -60,7 +60,7 @@
 
 [视频版测试](v1/video.py)
 
-![](doc/images/1.gif1)
+![](doc/images/1.gif)
 
 
 
