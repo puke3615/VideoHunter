@@ -1,6 +1,7 @@
 .idea
 *.pyc
 *.mp4
+!result.mp4
 /scripts/pubfig/face/
 /scripts/pubfig/images/
 /scripts/love/images/

@@ -84,7 +84,7 @@ def build_model(self):
 
 ![](doc/images/test2_prediction.jpg)
 
-[视频版测试](v1/video.py)	[点击下载演示视频](result.mp4)
+[视频版测试](v1/video.py)	[点击查看演示视频](https://pan.baidu.com/s/1qYLXruG)
 
 
 
