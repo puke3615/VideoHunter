@@ -1,5 +1,7 @@
 ## 基于深度学习的视频人脸检测
 
+*这里旨在说明开发前大致准备工作，未记录详细开发过程，可参考 [项目Commit记录](https://github.com/puke3615/VideoHunter/commits/master)*
+
 [TOC]
 
 ### 前期调研
