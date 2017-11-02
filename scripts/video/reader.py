@@ -71,22 +71,23 @@ def save_image(im):
 
 
 # 读取视频路径
-PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 10_超清.mp4'
+# PATH_VIDEO = u'E:/Youku Files/transcode/爱情公寓 第一季 10_超清.mp4'
+PATH_VIDEO = u'/Users/zijiao/Desktop/love1_3.mp4'
 # 普通模式保存路径
 PATH_SAVE = utils.root_path('data/love/images')
 # 分类模式保存路径
 CLASSIFY_PATH = utils.root_path('data/love/predict')
 # seek位置
-SEEK = 0
+SEEK = 2.6005e6
 # 识别阈值(0.0 ~ 1.0)
 FACE_MIN = 0.0
-FACE_MAX = 0.5
+FACE_MAX = 1.0
 # 是否保存图片
 SAVE_IMAGE = True
 # 是否自动分类
 CLASSIFY = True
 # 每隔多少帧进行采样
-STRIDES = 30
+STRIDES = 1
 # 是否显示画面
 SHOW_CONTENT = False
 # 是否显示视频百分比
